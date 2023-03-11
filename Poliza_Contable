@@ -1,0 +1,42 @@
+# Solicitar el nombre del equipo y la fecha de la póliza
+equipo = input("Introduce el nombre del equipo: ")
+fecha = input("Introduce la fecha de la póliza (en formato DD/MM/AAAA): ")
+
+# Convertir la fecha a un objeto datetime
+fecha = datetime.datetime.strptime(fecha, "%d/%m/%Y")
+
+# Crear el folio de la póliza
+folio = int(fecha.strftime("%y%m%d"))
+
+# Inicializar las variables para los totales de cargos y abonos
+total_cargos = 0
+total_abonos = 0
+
+# Crear una lista vacía para almacenar los detalles de la póliza
+detalles = []
+
+# Permitir al usuario capturar los cargos y abonos
+while True:
+    cuenta = input("Introduce la cuenta contable (o presiona Enter para terminar): ")
+    if not cuenta:
+        break
+    concepto = input("Introduce el concepto: ")
+    monto = float(input("Introduce el monto: "))
+    tipo = input("Introduce C para cargo o A para abono: ")
+    if tipo.upper() == "C":
+        total_cargos += monto
+    elif tipo.upper() == "A":
+        total_abonos += monto
+    detalles.append((cuenta, concepto, monto, tipo.upper()))
+
+# Imprimir la póliza
+print("PÓLIZA")
+print("Nombre del equipo: ", equipo)
+print("Fecha de la póliza: ", fecha.strftime("%d/%m/%Y"))
+print("Folio: ", folio)
+print()
+print("Cuentas\tConceptos\tCargos\tAbonos")
+for detalle in detalles:
+    print("{}\t{}\t{}\t{}".format(detalle[0], detalle[1], detalle[2] if detalle[3] == "C" else "", detalle[2] if detalle[3] == "A" else ""))
+print()
+print("Total:\t{}\t{}".format(total_cargos, total_abonos))
